@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Identificationclasses list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for identificationClass in identificationClasses %}
+            <tr>
+                <td><a href="{{ path('identificationclass_show', { 'id': identificationClass.id }) }}">{{ identificationClass.id }}</a></td>
+                <td>{{ identificationClass.name }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('identificationclass_show', { 'id': identificationClass.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('identificationclass_edit', { 'id': identificationClass.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('identificationclass_new') }}">Create a new identificationClass</a>
+        </li>
+    </ul>
+{% endblock %}

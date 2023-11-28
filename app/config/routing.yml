@@ -1,0 +1,164 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+index_country:
+        path: /country/index
+        defaults: {_controller: AppBundle:Country:index }
+
+new_country:
+        path: /country/new
+        defaults: {_controller: AppBundle:Country:new }
+
+show_country:
+        path: /country/show/{id}
+        defaults: {_controller: AppBundle:Country:show }
+
+delete_country:
+        path: /country/delete/{id}
+        defaults: {_controller: AppBundle:Country:delete }
+
+edit_country:
+        path: /country/edit/{id}
+        defaults: {_controller: AppBundle:Country:edit }
+
+state_index:
+        path: /state/index
+        defaults: {_controller: AppBundle:State:index }
+
+state_new:
+        path: /state/new
+        defaults: {_controller: AppBundle:State:new }
+
+state_show:
+        path: /state/show/{id}
+        defaults: {_controller: AppBundle:State:show }        
+
+state_edit:
+        path: /state/edit/{id}
+        defaults: {_controller: AppBundle:State:edit }
+
+state_delete:
+        path: /state/delete/{id}
+        defaults: {_controller: AppBundle:State:delete }
+
+city_index:
+        path: /city/index
+        defaults: {_controller: AppBundle:City:index }
+
+city_new:
+        path: /city/new
+        defaults: {_controller: AppBundle:City:new }
+
+city_show:
+        path: /city/show/{id}
+        defaults: {_controller: AppBundle:City:show }
+
+city_edit:
+        path: /city/edit/{id}
+        defaults: {_controller: AppBundle:City:edit }
+
+city_delete:
+        path: /city/delete/{id}
+        defaults: {_controller: AppBundle:City:delete }
+
+address_index:
+        path: /address/index
+        defaults: {_controller: AppBundle:Address:index }
+
+
+address_new:
+        path: /address/new
+        defaults: {_controller: AppBundle:Address:new }
+
+address_show:
+        path: /address/show/{id}
+        defaults: {_controller: AppBundle:Address:show }
+
+address_edit:
+        path: /address/edit/{id}
+        defaults: {_controller: AppBundle:Address:edit }        
+
+address_delete:
+        path: /address/delete/{id}
+        defaults: {_controller: AppBundle:Address:delete }
+
+person_index:
+        path: /person/index
+        defaults: {_controller: AppBundle:Person:index }
+
+person_new:
+        path: /person/new
+        defaults: {_controller: AppBundle:Person:new }
+
+person_show:
+        path: /person/show/{id}
+        defaults: {_controller: AppBundle:Person:show }
+
+person_edit:
+        path: /person/edit/{id}
+        defaults: {_controller: AppBundle:Person:edit }        
+
+person_delete:
+        path: /person/delete/{id}
+        defaults: {_controller: AppBundle:Person:delete }
+
+identification_index:
+        path: /identification/index
+        defaults: {_controller: AppBundle:Identification:index }
+
+identification_new:
+        path: /identification/new
+        defaults: {_controller: AppBundle:Identification:new }
+
+identification_show:
+        path: /identification/show/{id}
+        defaults: {_controller: AppBundle:Identification:show }
+
+identification_edit:
+        path: /identification/edit/{id}
+        defaults: {_controller: AppBundle:Identification:edit }        
+
+identification_delete:
+        path: /identification/delete/{id}
+        defaults: {_controller: AppBundle:Identification:delete }
+
+identificationclass_index:
+        path: /identificationclass/index
+        defaults: {_controller: AppBundle:IdentificationClass:index }
+
+identificationclass_new:
+        path: /identificationclass/new
+        defaults: {_controller: AppBundle:IdentificationClass:new }
+
+identificationclass_show:
+        path: /identificationclass/show/{id}
+        defaults: {_controller: AppBundle:IdentificationClass:show }
+
+identificationclass_edit:
+        path: /identificationclass/edit/{id}
+        defaults: {_controller: AppBundle:IdentificationClass:edit }        
+
+identificationclass_delete:
+        path: /identificationclass/delete/{id}
+        defaults: {_controller: AppBundle:IdentificationClass:delete }
+
+phone_index:
+        path: /phone/index
+        defaults: {_controller: AppBundle:Phone:index }
+
+phone_new:
+        path: /phone/new
+        defaults: {_controller: AppBundle:Phone:new }
+
+phone_show:
+        path: /phone/show/{id}
+        defaults: {_controller: AppBundle:Phone:show }
+
+phone_edit:
+        path: /phone/edit/{id}
+        defaults: {_controller: AppBundle:Phone:edit }        
+
+phone_delete:
+        path: /phone/delete/{id}
+        defaults: {_controller: AppBundle:Phone:delete }

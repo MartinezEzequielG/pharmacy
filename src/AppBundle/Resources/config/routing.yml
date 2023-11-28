@@ -1,0 +1,4 @@
+app_state:
+    resource: "@AppBundle/Resources/config/routing/state.php"
+    prefix:   /state
+
