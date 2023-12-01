@@ -3,9 +3,10 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Country;
+use Doctrine\ORM\EntityRepository;
+
+
 use Symfony\Component\Form\FormEvent;
-
-
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use AppBundle\Entity\IndetificationClass;
@@ -20,30 +21,55 @@ class IdentificationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->configureWidgets($builder);   
-    }
+        $builder
+            ->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                function (FormEvent $event) {
+                    $this->configureWidgets($event->getForm(), $event->getData());
+                }
+            );
 
-    public function configureWidgets($builder)
-    {
-         $builder
-        ->add('code')
-        ->add('country', 
-            EntityType::class, 
+        $this->configureWidgets(
+            $builder,
                 [
-                    'class'          => 'AppBundle:Country',
-                    'choice_label'   => 'name',
-                    'placeholder'    => 'Choose a counrty',
-
-                ]
-        )
-        ->add('type', 
-            EntityType::class, 
-                [
-                    'class'          => 'AppBundle:IdentificationClass',
-                    'choice_label'   => 'name',
-                    'placeholder'    => 'Choose a type',
+                    'country' => $builder->getData() && $builder->getData()->getCountry()
+                        ? $builder->getData()->getCountry()->getId()
+                        : 0,
                 ]
         );
+    }
+
+    public function configureWidgets($builder, $data = [])
+    {
+        $builder
+            ->add('code')
+            ->add(
+                'country',
+                EntityType::class,
+                    [
+                        'class'          => 'AppBundle:Country',
+                        'choice_label'   => 'name',
+                        'placeholder'    => 'Choose a counrty',
+
+                    ]
+            )
+            ->add(
+                'type',
+                EntityType::class,
+                    [
+                        'class'          => 'AppBundle:IdentificationClass',
+                        'choice_label'   => 'name',
+                        'placeholder'    => 'Choose a type',
+                        'required'       =>  false,
+                        'query_builder'  =>  function (EntityRepository $er) use ($data) {
+                            return $er->createQueryBuilder('t')
+                                ->join("t.country", "c")
+                                ->where("c.id = :country")
+                                ->setParameter("country", $data['country'])
+                                ->orderBy("t.name", "ASC");
+                            }
+                    ]
+            );
         return $this;
     }
 
@@ -55,9 +81,10 @@ class IdentificationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-                                'data_class' => 'AppBundle\Entity\Identification'
-                               ]
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\Identification'
+            ]
         );
     }
 
@@ -68,6 +95,4 @@ class IdentificationType extends AbstractType
     {
         return 'appbundle_identification';
     }
-
-
 }

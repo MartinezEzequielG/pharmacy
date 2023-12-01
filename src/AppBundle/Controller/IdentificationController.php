@@ -20,7 +20,7 @@ class IdentificationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $identifications = $em->getRepository('AppBundle:Identification')->findAll();
+        $identifications = $em->getRepository("AppBundle:Identification")->findAll();
 
         return $this->render("identification/index.html.twig", [
                                                                 'identifications' => $identifications,
@@ -35,10 +35,11 @@ class IdentificationController extends Controller
     public function newAction(Request $request)
     {
         $identification = new Identification();
-        $form = $this->createForm('AppBundle\Form\IdentificationType', $identification);
+        $form = $this->createForm("AppBundle\Form\IdentificationType", $identification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($identification->isCompleted()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($identification);
             $em->flush();
@@ -48,7 +49,8 @@ class IdentificationController extends Controller
                                                                  ]
             );
         }
-
+    }
+    
         return $this->render("identification/new.html.twig", [
                                                                 'identification' => $identification,
                                                                 'form'           => $form->createView(),
@@ -78,7 +80,7 @@ class IdentificationController extends Controller
     public function editAction(Request $request, Identification $identification)
     {
         $deleteForm = $this->createDeleteForm($identification);
-        $editForm = $this->createForm('AppBundle\Form\IdentificationType', $identification);
+        $editForm = $this->createForm("AppBundle\Form\IdentificationType", $identification);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

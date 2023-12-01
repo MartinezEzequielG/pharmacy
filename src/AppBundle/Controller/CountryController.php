@@ -17,7 +17,7 @@ class CountryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $country = $em->getRepository('AppBundle:Country')->findAll();
+        $country = $em->getRepository("AppBundle:Country")->findAll();
 
         return $this->render("country/index.html.twig",[
                                                          'country'     => $country,

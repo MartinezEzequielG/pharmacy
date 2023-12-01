@@ -20,7 +20,7 @@ class IdentificationClassController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $identificationClasses = $em->getRepository('AppBundle:IdentificationClass')->findAll();
+        $identificationClasses = $em->getRepository("AppBundle:IdentificationClass")->findAll();
 
         return $this->render("identificationclass/index.html.twig", [
                                                                         'identificationClasses' => $identificationClasses,
@@ -35,7 +35,7 @@ class IdentificationClassController extends Controller
     public function newAction(Request $request)
     {
         $identificationClass = new Identificationclass();
-        $form = $this->createForm('AppBundle\Form\IdentificationClassType', $identificationClass);
+        $form = $this->createForm("AppBundle\Form\IdentificationClassType", $identificationClass);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +78,7 @@ class IdentificationClassController extends Controller
     public function editAction(Request $request, IdentificationClass $identificationClass)
     {
         $deleteForm = $this->createDeleteForm($identificationClass);
-        $editForm = $this->createForm('AppBundle\Form\IdentificationClassType', $identificationClass);
+        $editForm = $this->createForm("AppBundle\Form\IdentificationClassType", $identificationClass);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -92,7 +92,7 @@ class IdentificationClassController extends Controller
             );
         }
 
-        return $this->render('identificationclass/edit.html.twig', [
+        return $this->render("identificationclass/edit.html.twig", [
                                                                         'identificationClass' => $identificationClass,
                                                                         'edit_form'           => $editForm->createView(),
                                                                         'delete_form'         => $deleteForm->createView(),

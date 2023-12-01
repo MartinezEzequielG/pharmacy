@@ -2,17 +2,10 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Phone;
-use AppBundle\Entity\Address;
-use Doctrine\ORM\EntityRepository;
-
-use AppBundle\Entity\Identification;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -23,20 +16,13 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-        ->addEventListener(
-            FormEvents::PRE_SUBMIT, function (FormEvent $event)
-            {
-                $this->configureWidgets($event->getForm(), $event->getData());
-            });
-           
-            $this->configureWidgets($builder);   
-        
-    }
-    
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $event->getData()->preSet();
+        });
 
-    
-    
+        $this->configureWidgets($builder);
+    }
+
     public function configureWidgets($builder)
     {
         $builder
@@ -44,24 +30,33 @@ class PersonType extends AbstractType
             ->add('middleName')
             ->add('lastName')
             ->add('maternalLastName')
-            ->add('identifications',
+            ->add(
+                'identifications',
                 CollectionType::class,
                     [
                         'entry_type' => IdentificationType::class,
-                        'required'=>true,
-                    ])
-            ->add('address', 
+                        'required' => true,
+                        'allow_add' => true,
+                        'allow_delete' => true,
+                        'by_reference' => false,
+                        'prototype' => true,
+                    ]
+                )
+            ->add(
+                'address',
                 AddressType::class,
                     [
-                        'required'=>true, 
+                        'required' => true,
 
-                    ])
-            ->add('phone', 
-                PhoneType::class, 
+                    ]
+                )
+            ->add(
+                'phone',
+                PhoneType::class,
                     [
-                        'required'=>true,
-                    ]);
-
+                        'required' => true,
+                    ]
+                );
     }
 
     /**
@@ -69,9 +64,10 @@ class PersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-                                'data_class' => 'AppBundle\Entity\Person'
-                               ]
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\Person'
+            ]
         );
     }
 
@@ -82,6 +78,4 @@ class PersonType extends AbstractType
     {
         return 'appbundle_person';
     }
-
-
 }

@@ -20,7 +20,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $people = $em->getRepository('AppBundle:Person')->findAll();
+        $people = $em->getRepository("AppBundle:Person")->findAll();
 
         return $this->render("person/index.html.twig", [
                                                             'people' => $people,
@@ -35,13 +35,11 @@ class PersonController extends Controller
     public function newAction(Request $request)
     {
         $person = new Person();
-        $form = $this->createForm('AppBundle\Form\PersonType', $person);
+        $form = $this->createForm("AppBundle\Form\PersonType", $person);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($person->getAddress()->getCity() 
-                && $person->getIdentifications() 
-                && $person->getPhone()){
+            if ($person->isCompleted()){
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($person);
@@ -84,19 +82,22 @@ class PersonController extends Controller
     public function editAction(Request $request, Person $person)
     {
         $deleteForm = $this->createDeleteForm($person);
-        $editForm = $this->createForm('AppBundle\Form\PersonType', $person);
+        $editForm = $this->createForm("AppBundle\Form\PersonType", $person);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($person->isCompleted()){
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute("person_edit", [
+            return $this->redirectToRoute("person_show", [
                                                             'id' => $person->getId()
                                                          ]
             );
         }
+    }
 
-        return $this->render('person/edit.html.twig', [
+        return $this->render("person/edit.html.twig", [
                                                         'person'      => $person,
                                                         'edit_form'   => $editForm->createView(),
                                                         'delete_form' => $deleteForm->createView(),

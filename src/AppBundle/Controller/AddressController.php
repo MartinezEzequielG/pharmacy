@@ -20,7 +20,7 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $addresses = $em->getRepository('AppBundle:Address')->findAll();
+        $addresses = $em->getRepository("AppBundle:Address")->findAll();
 
         return $this->render("address/index.html.twig", 
                                                         [
@@ -33,14 +33,14 @@ class AddressController extends Controller
      * Creates a new address entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request &$request)
     {
         $address = new Address();
-        $form = $this->createForm('AppBundle\Form\AddressType', $address);
+        $form = $this->createForm("AppBundle\Form\AddressType", $address);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($address->getCity() && $address->getState() && $address->getCountry()){
+            if ($address->isCompleted() ){
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($address);
                 $em->flush();
@@ -85,14 +85,17 @@ class AddressController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($address->isCompleted() ){
 
-            return $this->redirectToRoute("address_show", [
-                                                            'id'        => $address->getId()
-                                                          ]
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute("address_show", [
+                                                                'id'        => $address->getId()
+                                                              ]
             );
         }
-
+    }
+    
         return $this->render("address/edit.html.twig", 
                                                         [
                                                           'address'     => $address,

@@ -24,7 +24,7 @@ class StateController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $state = $em->getRepository('AppBundle:State')->findAll();
+        $state = $em->getRepository("AppBundle:State")->findAll();
 
         return $this->render("state/index.html.twig", [
                                                         'state' => $state,
@@ -39,7 +39,7 @@ class StateController extends Controller
     public function newAction(Request $request)
     {
         $state = new State();
-        $form = $this->createForm('AppBundle\Form\StateType', $state);
+        $form = $this->createForm("AppBundle\Form\StateType", $state);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,7 +82,7 @@ class StateController extends Controller
     public function editAction(Request $request, State $state)
     {
         $deleteForm = $this->createDeleteForm($state);
-        $editForm = $this->createForm('AppBundle\Form\StateType', $state);
+        $editForm = $this->createForm("AppBundle\Form\StateType", $state);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

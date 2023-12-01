@@ -3,8 +3,6 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-
-use AppBundle\Entity\IdentificationClass;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +15,13 @@ class IdentificationClassType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
+        $builder->add('country',
+                    EntityType::class, 
+                        [
+                            'class'        => 'AppBundle:Country',
+                            'choice_label' =>  'name',
+                        ]
+                    );
     }
     
     /**

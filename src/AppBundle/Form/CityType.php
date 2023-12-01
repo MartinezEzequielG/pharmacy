@@ -2,16 +2,12 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\City;
-use AppBundle\Entity\Country;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CityType extends AbstractType
@@ -30,14 +26,14 @@ class CityType extends AbstractType
 
         $this->configureWidgets(
             $builder,
-            [
-                'state'   => $builder->getData() && $builder->getData()->getState()
-                ? $builder->getData()->getState()->getId()
-                : 0,
-                'country' => $builder->getData() && $builder->getData()->getCountry()
-                ? $builder->getData()->getCountry()->getId()
-                : 0,
-            ]
+                [
+                    'state'   => $builder->getData() && $builder->getData()->getState()
+                        ? $builder->getData()->getState()->getId()
+                        : 0,
+                    'country' => $builder->getData() && $builder->getData()->getCountry()
+                        ? $builder->getData()->getCountry()->getId()
+                        : 0,
+                ]
         );   
     }
 
@@ -46,7 +42,8 @@ class CityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('country',
+            ->add(
+                'country',
                 EntityType::class, 
                 [
                     'class'          => 'AppBundle:Country',
@@ -63,13 +60,13 @@ class CityType extends AbstractType
                         'placeholder'    =>  'Choose a state',
                         'required'       =>  false,
                         'query_builder'  =>  function (EntityRepository $er) use ($data)
-                        {
-                            return $er->createQueryBuilder('s')
-                            ->join("s.country", "c")
-                            ->where("c.id = :country")
-                            ->setParameter("country", $data['country'])
-                            ->orderBy("s.name", "ASC");
-                        }                       
+                                                {
+                                                    return $er->createQueryBuilder('s')
+                                                        ->join("s.country", "c")
+                                                        ->where("c.id = :country")
+                                                        ->setParameter("country", $data['country'])
+                                                        ->orderBy("s.name", "ASC");
+                                                }                       
                     ]
             );
                         
@@ -83,9 +80,8 @@ class CityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-                                'data_class' => 'AppBundle\Entity\City'
-                               ]
-        );
+            'data_class' => 'AppBundle\Entity\City'
+        ]);
     }
 
     /**
@@ -95,8 +91,4 @@ class CityType extends AbstractType
     {
         return 'appbundle_city';
     }
-
-
-
-
 }

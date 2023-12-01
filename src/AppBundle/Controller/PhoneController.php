@@ -20,7 +20,7 @@ class PhoneController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $phones = $em->getRepository('AppBundle:Phone')->findAll();
+        $phones = $em->getRepository("AppBundle:Phone")->findAll();
 
         return $this->render("phone/index.html.twig", [
                                                         'phones' => $phones,
@@ -35,7 +35,7 @@ class PhoneController extends Controller
     public function newAction(Request $request)
     {
         $phone = new Phone();
-        $form = $this->createForm('AppBundle\Form\PhoneType', $phone);
+        $form = $this->createForm("AppBundle\Form\PhoneType", $phone);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +78,7 @@ class PhoneController extends Controller
     public function editAction(Request $request, Phone $phone)
     {
         $deleteForm = $this->createDeleteForm($phone);
-        $editForm = $this->createForm('AppBundle\Form\PhoneType', $phone);
+        $editForm = $this->createForm("AppBundle\Form\PhoneType", $phone);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

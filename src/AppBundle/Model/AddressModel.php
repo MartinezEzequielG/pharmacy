@@ -2,115 +2,38 @@
 
 namespace AppBundle\Model;
 
-trait AddressModel 
+Trait AddressModel 
 {
-     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function isCompleted()
     {
-        return $this->id;
-    }
+        if (! $this->getStreet()) {
+            return false;
+        }
 
-    /**
-     * Get the value of street
-     */ 
-    public function getStreet()
-    {
-        return $this->street;
-    }
+        if (! $this->getNumber()) {
+            return false;
+        }
 
-    /**
-     * Set the value of street
-     *
-     * @return  self
-     */ 
-    public function setStreet($street)
-    {
-        $this->street = $street;
+        if (! $this->getState()) {
+            return false;
+        }
 
-        return $this;
-    }
+        if (! $this->getCity()) {
+            return false;
+        }
 
-    /**
-     * Get the value of number
-     */ 
-    public function getNumber()
-    {
-        return $this->number;
-    }
+        if (! $this->getCountry()) {
+            return false;
+        }
 
-    /**
-     * Set the value of number
-     *
-     * @return  self
-     */ 
-    public function setNumber($number)
-    {
-        $this->number = $number;
+        if ($this->getCountry()->getId() != $this->getState()->getCountry()->getId()){
+            return false;
+        }
 
-        return $this;
-    }
+        if ($this->getState()->getId() != $this->getCity()->getState()->getId()){
+            return false;
+        }
 
-    /**
-     * Get the value of city
-     */ 
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * Set the value of city
-     *
-     * @return  self
-     */ 
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of state
-     */ 
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * Set the value of state
-     *
-     * @return  self
-     */ 
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of country
-     */ 
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * Set the value of country
-     *
-     * @return  self
-     */ 
-    public function setCountry($country)
-    {
-        $this->country = $country;
-
-        return $this;
+        return true;
     }
 }

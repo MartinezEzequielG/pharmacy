@@ -1,16 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <h1>Person creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.middleName) }}
+        {{ form_row(form.lastName) }}
+        {{ form_row(form.maternalLastName) }}
+        {{ form_row(form.firstName) }}
+
+
+        <ul id="identification-fields-list"
+            data-prototype="{{ form_widget(form.identifications.vars.prototype)|e }}">
+            {% for identifications in form.identifications %}
+
+                <li>
+                    {{ form_errors(form.identifications) }}
+                    {{ form_row(form.identifications) }}
+                </li>
+
+            {% endfor %}
+            <a href="#" id="add-identification">Add identification</a>
+            <a href="#" id="delete-identification">Delete identification</a>
+
+        </ul>
+    {{ form_widget(form) }}
+            
+            <input type="submit" value="Create" />
+
     {{ form_end(form) }}
+
 
     <ul>
         <li>
             <a href="{{ path('person_index') }}">Back to the list</a>
         </li>
     </ul>
+
+    <script type="text/javascript">
+        var identificationCount = '{{ form.identifications|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-identification').click(function(e) {
+                e.preventDefault();
+
+                var identificationList = jQuery('#identification-fields-list');
+
+                var newWidget = identificationList.attr('data-prototype');
+
+                newWidget = newWidget.replace(/__name__/g, identificationCount);
+                identificationCount++;
+
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(identificationList);
+
+
+            });
+
+            jQuery('#delete-identification').click(function(e) {
+
+                var identificationList = jQuery('#identification-fields-list');
+                identificationList.children('li:last').remove();
+
+            });
+                
+        })
+    </script>
+
 {% endblock %}
